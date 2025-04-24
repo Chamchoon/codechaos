@@ -25,7 +25,9 @@ bool LevelLoader::LoadLevel(const std::string& path, Level& l) {
     for (const auto& w : j["walls"]) {
         l.walls.emplace_back(w["x"], w["y"], w["width"], w["height"]);
     }
-
+    for (const auto& w : j["dynamicWalls"]) {
+        l.dynamicWalls.emplace_back(w["x"], w["y"], w["width"], w["height"]);
+    }
     for (const auto& b : j["numberBlocks"]) {
         l.numberBlocks.emplace_back(b["x"], b["y"],b["v"]);
     }
@@ -75,6 +77,13 @@ bool LevelLoader::CheckEvent(Level& l) {
                 return false;
             }
             i++;
+        }
+        if(lastLoadedJson.contains("dynamicWalls")){
+            float f = lastLoadedJson["dynamicWalls"][0]["y"];
+            while(f<lastLoadedJson["finalWalls"][0]){
+                f += 0.2;
+                cout<<i<<endl;
+            }
         }
         l.door.opened = true;
         return true;

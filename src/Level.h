@@ -12,6 +12,7 @@ using namespace std;
 
 struct Level {
     std::vector<Wall> walls;
+    std::vector<Wall> dynamicWalls;
     std::vector<NumberBlock> numberBlocks;
     std::vector<Switch> Switches;
     std::string text;

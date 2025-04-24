@@ -1,0 +1,18 @@
+{
+    "walls": [
+        { "x": 300, "y": 300, "width": 800, "height": 20 },
+        { "x": 0, "y": 400, "width": 300, "height": 20 }
+    ],
+    "door": { "x": 600, "y": 450 },
+    "terminal": {
+        "enabledCommands": ["help", "man", "echo", "clear","ls","cat","chmod"],
+        "files": {
+            "hint1.txt": ["Usage : echo some text output : some text","w"],
+            "hint2.txt": ["A baby sais MAMA a developer sais print('he...)","r"]
+        }
+    },
+    "text":"to see if you are a true programmer echo our first phrase\n press tab then type help to know how",
+    "textAttributes":[100,100,20],
+    "type": "Terminal Output",
+    "output": "hello world"
+}

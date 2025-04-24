@@ -1,0 +1,32 @@
+
+{
+    "walls": [
+        { "x": 300, "y": 300, "width": 800, "height": 20 },
+        { "x": 0, "y": 400, "width": 500, "height": 20 }
+    ],
+    "numberBlocks": [
+        { "x": 100, "y": 200 ,"v":0},
+        { "x": 150, "y": 200 ,"v":1},
+        { "x": 200, "y": 200 ,"v":2},
+        { "x": 250, "y": 200 ,"v":3},
+        { "x": 300, "y": 200 ,"v":4},
+        { "x": 350, "y": 200 ,"v":5},
+        { "x": 400, "y": 200 ,"v":6},
+        { "x": 450, "y": 200 ,"v":7}
+    ],
+    
+    "door": { "x": 600, "y": 450 },
+    "terminal": {
+        "enabledCommands": ["help","ls","cat","clear"],
+        "files": {
+            "hint1.txt": ["left click to increase right click to decrease","r"],
+            "hint2.txt": ["base64","r"],
+            "hint3.txt": ["https://www.base64decode.org/","r"],
+            "hint4.txt": ["Sometimes numbers grow by adding their ancestors","r"]
+        }
+    },
+    "text":"Rmlib25hY2Np",
+    "textAttributes":[300,100,30],
+    "type": "MathBlocks",
+    "MathBlocksAnswer":[0,1,1,2,3,5,8,13]
+}
