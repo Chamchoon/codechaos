@@ -1,20 +1,18 @@
 {
     "walls": [
         { "x": 300, "y": 300, "width": 800, "height": 20 },
-        { "x": 0, "y": 400, "width": 500, "height": 20 }
+        { "x": 0, "y": 400, "width": 300, "height": 20 }
     ],
     "dynamicWalls" : [
-        { "x": 300, "y": 150, "width": 20, "height": 300 }
+        [{ "x": 300, "y": 200, "width": 20, "height": 100 },{"x":300,"y":300}]
     ],
-    "finalWalls":[300,300],
     "switches": [
-        { "x": 200, "y": 200 },
-        { "x": 250, "y": 200 },
-        { "x": 300, "y": 200 },
-        { "x": 350, "y": 200 },
-        { "x": 400, "y": 200 }
+        { "x": 300, "y": 100 },
+        { "x": 350, "y": 100 },
+        { "x": 400, "y": 100 },
+        { "x": 450, "y": 100 }
     ],
-    "door": { "x": 600, "y": 450 },
+    "door": { "x": 750, "y": 250 ,"opened":true},
     "terminal": {
         "enabledCommands": ["help","ls","cat","clear"],
         "files": {
@@ -22,7 +20,7 @@
         }
     },
     "text":"what is 10 in the world of 10",
-    "textAttributes":[300,100,20],
+    "textAttributes":[280,50,20],
     "type": "binary",
-    "binaryAnswer":[true,false,true,false,true]
+    "binaryAnswer":[true,false,true,false]
 }

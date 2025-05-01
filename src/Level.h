@@ -18,8 +18,9 @@ struct Level {
     std::string text;
     int textAttributes[3];
     Door door;
-    Player player;
+    Player player = Player(50,50);
     Terminal terminal;
     
+    Level() : dynamicWalls() {}
     void Clear();  // to clear/reset level objects before loading another
 };

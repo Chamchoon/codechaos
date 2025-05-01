@@ -3,6 +3,7 @@
       {
         "name": "Linux",
         "includePath": [
+          "/usr/include/lua5.4",
           "${workspaceFolder}/**",
           "/usr/include/c++/**",  // Standard C++ headers
           "/usr/include/x86_64-linux-gnu/c++/**",

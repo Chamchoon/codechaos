@@ -3,11 +3,10 @@
         { "x": 300, "y": 300, "width": 800, "height": 20 },
         { "x": 0, "y": 400, "width": 300, "height": 20 }
     ],
-    "door": { "x": 600, "y": 450 },
     "terminal": {
-        "enabledCommands": ["help", "man", "echo", "clear","ls","cat","chmod"],
+        "enabledCommands": ["help", "man", "echo", "clear","ls","cat","chmod","run"],
         "files": {
-            "hint1.txt": ["Usage : echo some text output : some text","w"],
+            "hint1.txt": ["Usage : echo some text output : some text","rw"],
             "hint2.txt": ["A baby sais MAMA a developer sais print('he...)","r"]
         }
     },

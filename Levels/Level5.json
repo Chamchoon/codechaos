@@ -1,0 +1,26 @@
+{
+    "walls": [
+        { "x": 700, "y": 300, "width":200, "height": 20 },
+        { "x": 500, "y": 400, "width":200, "height": 20 },
+        { "x": 0, "y": 500, "width": 500, "height": 20 }
+    ],
+    "switches": [
+        { "x": 250, "y": 40 },
+        { "x": 250, "y": 90 },
+        { "x": 250, "y": 130 },
+        { "x": 250, "y": 170 },
+        { "x": 250, "y": 210 },
+        { "x": 250, "y": 260 }
+    ],
+    "door": { "x": 750, "y": 115 ,"opened":false},
+    "terminal": {
+        "enabledCommands": ["help","ls","cat","clear"],
+        "files": {
+            "hint1.txt": ["simple logic!!","r"]
+        }
+    },
+    "text": "      --\\        \n            +-[AND]---+      \n      --/               |      \n                         |\n      --[NOT]--\\     |      \n                     +--+>[AND]---------------------->\n      ----------/     |  \n                          |\n      ------\\          |  \n               +-[NOR]-/          \n      [NOT]-/             ",
+    "textAttributes": [250, 50, 20],
+    "type": "binary",
+    "binaryAnswer":[true,true,false,true,false,true]
+}

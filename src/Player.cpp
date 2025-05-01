@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <iostream>
 #include "Wall.h"
+#include <cmath>
 using namespace std;
 #define GRAVITY 0.5f
 #define JUMP_STRENGTH 10.0f
@@ -28,10 +29,20 @@ void Player::Update(const std::vector<Wall>& walls) {
     bool canMoveX = true;
     for (const Wall& wall : walls) {
         if (CheckCollision(futureX, wall)) {
+            // Only block X if we're not standing on the wall (vertical overlap matters)
+            float playerBottom = position.y + radius;
+            float wallTop = wall.rect.y;
+    
+            if (playerBottom <= wallTop + 1.0f) { // slight buffer
+                // Standing on it or nearly, don't block X
+                continue;
+            }
+    
             canMoveX = false;
             break;
         }
     }
+    
     if (canMoveX) position.x += moveX;
 
 
@@ -45,12 +56,26 @@ void Player::Update(const std::vector<Wall>& walls) {
     for (const Wall& wall : walls) {
         if (CheckCollision(futureY, wall)) {
             canMoveY = false;
+            if (velocityY > 0) {
+                // Falling down, align player to top of wall
+                position.y = wall.rect.y - radius;
+                isOnGround = true;
+            } else if (velocityY < 0) {
+                // Hitting ceiling, align to bottom
+                position.y = wall.rect.y + wall.rect.height + radius;
+            }
             velocityY = 0;
-            isOnGround = true;
             break;
         }
     }
+    
     if (canMoveY) position.y += velocityY;
+    if (std::isnan(position.y) || std::isinf(position.y) || position.y > 10000.0f) {
+        std::cout << "Invalid Y detected: " << position.y << "\n";
+        position = {50, 50};
+        velocityY = 0;
+    }
+    
 }
 
 void Player::Draw() {

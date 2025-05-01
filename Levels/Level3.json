@@ -1,4 +1,3 @@
-
 {
     "walls": [
         { "x": 300, "y": 300, "width": 800, "height": 20 },
@@ -14,8 +13,6 @@
         { "x": 400, "y": 200 ,"v":6},
         { "x": 450, "y": 200 ,"v":7}
     ],
-    
-    "door": { "x": 600, "y": 450 },
     "terminal": {
         "enabledCommands": ["help","ls","cat","clear"],
         "files": {

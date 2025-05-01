@@ -1,5 +1,6 @@
 #include "Terminal.h"
 #include "raylib.h"
+#include <sstream>
 #include <iostream>
 
 using namespace std;
@@ -40,7 +41,11 @@ void Terminal::Draw() {
         DrawText(line.c_str(), 50, y, 20, GREEN);
         y += 25;
     }
-    DrawText((("> " + input).c_str()), 50, y, 20, GREEN);
+    if(inNanoMode){
+        DrawText((("# " + input).c_str()), 50, y, 20, GREEN);    
+    }else{
+        DrawText((("> " + input).c_str()), 50, y, 20, GREEN);
+    }
 }
 
 
@@ -66,7 +71,23 @@ void Terminal::InitDefaultCommands() {
             if (fileSystem[args].second.find('r') == std::string::npos) {
                 history.push_back("Permission denied: " + args);
             } else {
-                history.push_back(fileSystem[args].first);
+                std::string content = fileSystem[args].first;
+                size_t start = 0;
+                size_t end = content.find('\n');
+                
+                if (end == std::string::npos) {
+                    history.push_back(content);
+                } else {
+                    while (end != std::string::npos) {
+                        std::string line = content.substr(start, end - start);
+                        history.push_back(line);
+                        start = end + 1;
+                        end = content.find('\n', start);
+                    }
+                    if (start < content.length()) {
+                        history.push_back(content.substr(start));
+                    }
+                }
             }
         } else {
             history.push_back("No such file: " + args);
@@ -233,6 +254,59 @@ void Terminal::InitDefaultCommands() {
         }
     });
     
+    AddCommand("run", [&](const std::string& args) {    
+        if (fileSystem.find(args) != fileSystem.end()) {
+            size_t dotPos = args.find_last_of('.');
+            if (dotPos == std::string::npos) {
+                return;
+            }
+            string extension = args.substr(dotPos + 1);
+            if(extension != "lua"){
+                history.push_back("File is not excutable : " + args);
+            }
+            else if (fileSystem[args].second.find('x') == std::string::npos) {
+                history.push_back("Permission denied: " + args);
+            } else {
+                history.push_back("script.lua ...");
+            }
+        } else {
+            history.push_back("No such file: " + args);
+        }
+    });
+    AddCommand("nano", [&](const std::string& args) {
+        if (args.empty()) {
+            history.push_back("Usage: nano <filename>");
+            return;
+        }
+    
+        std::string& content = fileSystem[args].first;
+        std::string& permissions = fileSystem[args].second;
+    
+        if (permissions.find('w') == std::string::npos) {
+            history.push_back("Permission denied: " + args);
+            return;
+        }
+    
+        currentEditingFile = args;
+        inNanoMode = true;
+        nanoBuffer.clear();
+    
+        history.push_back("Editing file: " + args);
+        history.push_back("Add <text>' to add new lines.");
+        history.push_back("Or use '<line number> <text>' to edit lines.");
+        history.push_back("Type ':wq' to save and exit. ':q' to quit without saving.");
+    
+        if (!content.empty()) {
+            std::istringstream stream(content);
+            std::string line;
+            int lineNumber = 1;
+            while (std::getline(stream, line)) {
+                nanoBuffer.push_back(line);
+                history.push_back(std::to_string(lineNumber++) + " | " + line);
+            }
+        }
+    });
+    
     
     
 }
@@ -248,6 +322,55 @@ void Terminal::EnableCommand(const std::string& name) {
 }
 
 void Terminal::ExecuteCommand(const std::string& input) {
+    if (inNanoMode) {
+        if (input == ":wq") {
+            std::string result;
+            for (const std::string& line : nanoBuffer) {
+                result += line + "\n";
+            }
+            result.pop_back(); // remove trailing newline
+            fileSystem[currentEditingFile].first = result;
+            history.push_back("Saved and exited nano: " + currentEditingFile);
+            inNanoMode = false;
+            currentEditingFile.clear();
+            nanoBuffer.clear();
+            return;
+        } else if (input == ":q") {
+            history.push_back("Exited nano without saving: " + currentEditingFile);
+            inNanoMode = false;
+            currentEditingFile.clear();
+            nanoBuffer.clear();
+            return;
+        }
+    
+        // Check for line number edit: "2 Hello World"
+        if (!input.empty() && std::isdigit(input[0])) {
+            size_t space = input.find(' ');
+            if (space != std::string::npos) {
+                std::string lineNumStr = input.substr(0, space);
+                std::string lineContent = input.substr(space + 1);
+    
+                try {
+                    int lineNum = std::stoi(lineNumStr);
+                    if (lineNum >= 1 && lineNum <= (int)nanoBuffer.size()) {
+                        nanoBuffer[lineNum - 1] = lineContent;
+                        history.push_back("Edited line " + std::to_string(lineNum));
+                    } else {
+                        history.push_back("Line number out of range.");
+                    }
+                } catch (...) {
+                    history.push_back("Invalid line number.");
+                }
+            } else {
+                history.push_back("To edit a line: <line number> <new text>");
+            }
+        } else {
+            nanoBuffer.push_back(input);
+        }
+    
+        return;
+    }
+    
 
     size_t spacePos = input.find(' ');
     std::string command = input.substr(0, spacePos);

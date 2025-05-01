@@ -1,4 +1,3 @@
-#include "raylib.h"
 #include "Level.h"
 #include "LevelLoader.h"
 #include <iostream>
@@ -13,19 +12,30 @@ int main() {
     Level level;
     LevelLoader::LoadLevel("../Levels/Level1.json", level);
     int currentLevel = 1;
-    cout<<level.terminal.commandMap.size()<<endl;
+
     while (!WindowShouldClose()) {
         if (IsKeyPressed(KEY_TAB)) level.terminal.Toggle();
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
+        LevelLoader::CheckEvent(level);
+        std::vector<Wall> allWalls;
+        allWalls.reserve(level.walls.size() + level.dynamicWalls.size());
 
-        if (!level.terminal.isOpen) {
-            LevelLoader::CheckEvent(level);
-            level.player.Update(level.walls);
+        if (!level.terminal.isOpen) {            
+            
+            allWalls.clear();
+            allWalls.insert(allWalls.end(), level.walls.begin(), level.walls.end());
+            allWalls.insert(allWalls.end(), level.dynamicWalls.begin(), level.dynamicWalls.end());
+            level.player.Update(allWalls);
             level.player.Draw();
+            cout<<"x : "<<level.player.position.x<<endl;
 
+            
+            
+            
             for (Wall& wall : level.walls) wall.Draw();
+            for (Wall& dywall : level.dynamicWalls) dywall.Draw();
             for (auto& nb : level.numberBlocks){
                 nb.Draw();
                 nb.Update();
@@ -45,8 +55,14 @@ int main() {
                 std::string path = "../Levels/Level" + std::to_string(currentLevel) + ".json";
                 LevelLoader::LoadLevel(path, level);
             }
+            if(level.player.position.y<0 || level.player.position.y>600){
+                level.player = Player(50,50);
+                level.player.velocityY = 0;
+                level.player.isOnGround = false;
+            }
         }
-
+        
+        //cout<<level.player.position.y<<endl;
         level.terminal.Draw();
         level.terminal.Update();
         

@@ -11,10 +11,12 @@ public:
     bool opened;
     Color solvedColor;
     Color normalColor;
-
     Door();
+    Door(float x,float y,bool v);
     void Draw();
+    void openDoor();
     bool CheckCollision(const Vector2& player);
+    Sound s_openDoor;
 };
 
 #endif
