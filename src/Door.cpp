@@ -1,25 +1,21 @@
 #include "Door.h"
 #include "Player.h"
-
+#include <iostream>
 
 Door::Door() {
     rect = {750, 450, 50, 100};
     solvedColor = GREEN;
     normalColor = GRAY;
-    opened = false;
+    opened = false;    
     s_openDoor = LoadSound("../sounds/openDoor.wav");
-}
-Door::Door(float x,float y,bool v) {
-    rect = {x, y, 50, 100};
-    solvedColor = GREEN;
-    normalColor = GRAY;
-    opened = v;
-    s_openDoor = LoadSound("sounds/openDoor.wav");
 }
 
 void Door::openDoor(){
-    opened = true;
-    PlaySound(s_openDoor);
+    if(!opened){
+        opened = true;
+        PlaySound(s_openDoor);
+    }
+    
 }
 
 void Door::Draw() {

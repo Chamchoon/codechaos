@@ -5,7 +5,10 @@
 
 using namespace std;
 
-Terminal::Terminal() {}
+Terminal::Terminal() {
+    s_hint = LoadSound("../sounds/HintReveal.mp3");
+    s_error = LoadSound("../sounds/error.wav");
+}
 
 void Terminal::Toggle() {
     isOpen = !isOpen;
@@ -70,11 +73,14 @@ void Terminal::InitDefaultCommands() {
         if (fileSystem.find(args) != fileSystem.end()) {
             if (fileSystem[args].second.find('r') == std::string::npos) {
                 history.push_back("Permission denied: " + args);
+                PlaySound(s_error);
             } else {
                 std::string content = fileSystem[args].first;
                 size_t start = 0;
                 size_t end = content.find('\n');
-                
+                if(args.substr(0,4)=="hint"){
+                    PlaySound(s_hint);
+                }
                 if (end == std::string::npos) {
                     history.push_back(content);
                 } else {
@@ -91,6 +97,7 @@ void Terminal::InitDefaultCommands() {
             }
         } else {
             history.push_back("No such file: " + args);
+            PlaySound(s_error);
         }
     });
 
@@ -106,6 +113,7 @@ void Terminal::InitDefaultCommands() {
     
         if (fileSystem.find(filename) == fileSystem.end()) {
             history.push_back("No such file: " + filename);
+            PlaySound(s_error);
             return;
         }
     
@@ -167,12 +175,14 @@ void Terminal::InitDefaultCommands() {
         if (fileSystem.find(args) != fileSystem.end()) {
             if(fileSystem[args].second.find('w') == std::string::npos){
                 history.push_back("Permission denied no write permission");
+                PlaySound(s_error);
             }else{
                 fileSystem.erase(args);
                 history.push_back("File deleted: " + args);
             }
         } else {
             history.push_back("No such file: " + args);
+            PlaySound(s_error);
         }
     });
     
@@ -263,9 +273,11 @@ void Terminal::InitDefaultCommands() {
             string extension = args.substr(dotPos + 1);
             if(extension != "lua"){
                 history.push_back("File is not excutable : " + args);
+                PlaySound(s_error);
             }
             else if (fileSystem[args].second.find('x') == std::string::npos) {
                 history.push_back("Permission denied: " + args);
+                PlaySound(s_error);
             } else {
                 history.push_back("script.lua ...");
             }

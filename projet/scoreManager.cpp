@@ -2,6 +2,7 @@
 #include "raylib.h"
 
 int ScoreManager::Get(int stage) {
+    InitStorage(); 
     return LoadStorageValue(stage);
 }
 

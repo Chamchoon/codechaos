@@ -3,8 +3,6 @@ extern "C" {
     #include <lauxlib.h>
     #include <lualib.h>
 }
-
-
 #include "LevelLoader.h"
 #include <fstream>
 #include <iostream>
@@ -23,7 +21,8 @@ bool LevelLoader::LoadLevel(const std::string& path, Level& l) {
     l.Clear();
     luaL_openlibs(L);
     movingWall = false;
-    l.player = Player(50,50);
+    l.player.position.y = 250;
+    l.player.position.x = 50;
 
     ifstream file(path);
     if (!file.is_open()) {
@@ -60,7 +59,9 @@ bool LevelLoader::LoadLevel(const std::string& path, Level& l) {
         l.door.rect.y = j["door"]["y"];
         l.door.opened = j["door"]["opened"];
     }else{
-        l.door = Door(750,250,false);
+        l.door.rect.x = 750;
+        l.door.rect.y = 250;
+        l.door.opened = false;
     }
     
     
@@ -143,8 +144,13 @@ bool LevelLoader::CheckEvent(Level& l) {
         
                 if (varName == "movingWall" && type == "boolean") {
                     lua_pushboolean(L, movingWall);
-                } else if (varName == "dynamicWallY" && type == "float") {
+                }else if (varName == "OpenTheDoor" && type == "boolean")
+                {
+                    lua_pushboolean(L, l.door.opened);
+                }else if (varName == "dynamicWallY" && type == "float") {
                     lua_pushinteger(L, l.dynamicWalls.at(0).rect.y);
+                }else if (varName == "dynamicWallX" && type == "float") {
+                    lua_pushinteger(L, l.dynamicWalls.at(0).rect.x);
                 }
         
                 lua_setglobal(L, varName.c_str());
@@ -162,8 +168,13 @@ bool LevelLoader::CheckEvent(Level& l) {
         
                 if (varName == "movingWall" && type == "boolean" && lua_isboolean(L, -1)) {
                     movingWall = lua_toboolean(L, -1);
-                } else if (varName == "dynamicWallY" && type == "float" && lua_isnumber(L, -1)) {
+                }else if (varName == "OpenTheDoor" && type == "boolean")
+                {
+                    l.door.opened = lua_toboolean(L, -1);
+                }else if (varName == "dynamicWallY" && type == "float" && lua_isnumber(L, -1)) {
                     l.dynamicWalls.at(0).rect.y = lua_tointeger(L, -1);
+                }else if (varName == "dynamicWallX" && type == "float" && lua_isnumber(L, -1)) {
+                    l.dynamicWalls.at(0).rect.x = lua_tointeger(L, -1);
                 }
         
                 lua_pop(L, 1);
@@ -171,6 +182,13 @@ bool LevelLoader::CheckEvent(Level& l) {
             lua_close(L);
             return true;
         }
+    }
+    if (lastLoadedJson["type"] == "PublicIP") {
+        const string targetIP = "192.225.83.117";
+        l.terminal.AddCommand("ip", [&](const string& args){
+            if (args == targetIP) l.door.openDoor();
+        });
+        l.terminal.EnableCommand("ip");
     }
     return false;
 }

@@ -10,6 +10,7 @@ public:
     bool isActive;
     Color activeColor;
     Color inactiveColor;
+    Sound s_switch;
 
     Switch(float x, float y);
     void Toggle();

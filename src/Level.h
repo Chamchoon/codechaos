@@ -18,7 +18,7 @@ struct Level {
     std::string text;
     int textAttributes[3];
     Door door;
-    Player player = Player(50,50);
+    Player player = Player(50,250);
     Terminal terminal;
     
     Level() : dynamicWalls() {}

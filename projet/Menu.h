@@ -1,11 +1,17 @@
-#include "ScoreManager.h"
-#include "raylib.h"
+#ifndef MENU_H
+#define MENU_H
 
-int ScoreManager::Get(int stage) {
-    return LoadStorageValue(stage);
-}
+#include <vector>
+#include "StageButton.h"
 
-void ScoreManager::Set(int stage, int score) {
-    int best = Get(stage);
-    if (score > best) SaveStorageValue(stage, score);
-}
+class Menu {
+    std::vector<StageButton> buttons;
+    int selectedStage;
+public:
+    Menu();
+    void Update();
+    void Draw();
+    bool StageChosen(int &stage);
+};
+
+#endif

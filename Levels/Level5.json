@@ -1,26 +1,29 @@
 {
     "walls": [
-        { "x": 700, "y": 300, "width":200, "height": 20 },
-        { "x": 500, "y": 400, "width":200, "height": 20 },
-        { "x": 0, "y": 500, "width": 500, "height": 20 }
+        { "x": 300, "y": 300, "width": 800, "height": 20 },
+        { "x": 0, "y": 400, "width": 500, "height": 20 }
     ],
-    "switches": [
-        { "x": 250, "y": 40 },
-        { "x": 250, "y": 90 },
-        { "x": 250, "y": 130 },
-        { "x": 250, "y": 170 },
-        { "x": 250, "y": 210 },
-        { "x": 250, "y": 260 }
+    "numberBlocks": [
+        { "x": 100, "y": 200 ,"v":0},
+        { "x": 150, "y": 200 ,"v":1},
+        { "x": 200, "y": 200 ,"v":2},
+        { "x": 250, "y": 200 ,"v":3},
+        { "x": 300, "y": 200 ,"v":4},
+        { "x": 350, "y": 200 ,"v":5},
+        { "x": 400, "y": 200 ,"v":6},
+        { "x": 450, "y": 200 ,"v":7}
     ],
-    "door": { "x": 750, "y": 115 ,"opened":false},
     "terminal": {
         "enabledCommands": ["help","ls","cat","clear"],
         "files": {
-            "hint1.txt": ["simple logic!!","r"]
+            "hint1.txt": ["left click to increase right click to decrease","r"],
+            "hint2.txt": ["base64","r"],
+            "hint3.txt": ["https://www.base64decode.org/","r"],
+            "hint4.txt": ["Sometimes numbers grow by adding their ancestors","r"]
         }
     },
-    "text": "      --\\        \n            +-[AND]---+      \n      --/               |      \n                         |\n      --[NOT]--\\     |      \n                     +--+>[AND]---------------------->\n      ----------/     |  \n                          |\n      ------\\          |  \n               +-[NOR]-/          \n      [NOT]-/             ",
-    "textAttributes": [250, 50, 20],
-    "type": "binary",
-    "binaryAnswer":[true,true,false,true,false,true]
+    "text":"Rmlib25hY2Np",
+    "textAttributes":[300,100,30],
+    "type": "MathBlocks",
+    "MathBlocksAnswer":[0,1,1,2,3,5,8,13]
 }

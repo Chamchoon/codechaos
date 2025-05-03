@@ -10,7 +10,7 @@
         "enabledCommands": ["help","ls","cat","clear","nano","chmod","run"],
         "files": {
             "hint1.txt": ["chmod +x ??","r"],
-            "script.lua" : ["dynamicWallY = dynamicWallY - 1\nif dynamicWallY<=-10 then dynamicWallY = 610\nend","rwx"]
+            "script.lua" : ["dynamicWallY = dynamicWallY - 1\nif dynamicWallY<=-10 then dynamicWallY = 610\nend","rw"]
         }
     },
     "text":"can you make it excutable",

@@ -1,6 +1,6 @@
 #include "Game.h"
 #include "ScreenManager.h"
-#include "ScoreManager.h"
+
 
 // Define all sound/music variables
 Sound s_ballJump;
@@ -98,7 +98,7 @@ void Game::PlayStage(int stage) {
 
     // compute and store score
     lastScore = (int)((100.0 - (GetTime() - startTime)) * 10);
-    ScoreManager::Set(stage, lastScore);
+
 
     // play win & next-level sounds :contentReference[oaicite:6]{index=6}
     PlaySound(s_youWin);

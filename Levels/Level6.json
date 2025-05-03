@@ -1,0 +1,32 @@
+{
+    "walls": [
+      { "x": 0, "y": 500, "width": 800, "height": 20 }
+    ],
+    "numberBlocks": [
+        { "x": 50, "y": 200 ,"v":0},
+        { "x": 100, "y": 200 ,"v":0},
+        { "x": 150, "y": 200 ,"v":0},
+        { "x": 250, "y": 200 ,"v":0},
+        { "x": 300, "y": 200 ,"v":0},
+        { "x": 350, "y": 200 ,"v":0},
+        { "x": 450, "y": 200 ,"v":0},
+        { "x": 500, "y": 200 ,"v":0},
+        { "x": 550, "y": 200 ,"v":0},
+        { "x": 650, "y": 200 ,"v":0},
+        { "x": 700, "y": 200 ,"v":0},
+        { "x": 750, "y": 200 ,"v":0}
+    ],
+    "door": { "x": 750, "y": 400, "opened": false },
+    "terminal": {
+      "enabledCommands": ["help", "ls", "cat", "clear"],
+      "files": {
+        "hint1.txt": ["87 104 97 116 73 115 77 121 73 80", "r"],
+        "hint2.txt": ["Use this tool to decode decimal→text:\n https://www.browserling.com/tools/decimal-to-text", "r"],
+        "hint3.txt": ["Search for the word you found", "r"]
+      }
+    },
+    "text": "Decode the numbers, follow the clues, and unlock the gate\n\n\n\n\n\n                .                        .                        .",
+    "textAttributes": [100, 80, 20],
+    "type": "MathBlocks",
+    "MathBlocksAnswer":[1,9,6,2,2,5,0,8,3,1,1,7]
+  }

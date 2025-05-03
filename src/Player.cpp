@@ -11,6 +11,7 @@ Player::Player(float x, float y) {
     radius = 20.0f;
     isOnGround = false;
     color = BLUE;
+    s_playerJump = LoadSound("../sounds/ballJump.wav");
 }
 
 bool CheckCollision(const Rectangle& player, const Wall& wall) {
@@ -24,17 +25,15 @@ void Player::Update(const std::vector<Wall>& walls) {
     if (IsKeyDown(KEY_A)) moveX = -speed;
     if (IsKeyDown(KEY_D)) moveX = speed;
 
-    // Check collision for X movement
+    
     Rectangle futureX = {position.x + moveX - radius, position.y - radius, radius * 2, radius * 2};
     bool canMoveX = true;
     for (const Wall& wall : walls) {
         if (CheckCollision(futureX, wall)) {
-            // Only block X if we're not standing on the wall (vertical overlap matters)
             float playerBottom = position.y + radius;
             float wallTop = wall.rect.y;
     
-            if (playerBottom <= wallTop + 1.0f) { // slight buffer
-                // Standing on it or nearly, don't block X
+            if (playerBottom <= wallTop + 1.0f) { 
                 continue;
             }
     
@@ -49,8 +48,9 @@ void Player::Update(const std::vector<Wall>& walls) {
     if (IsKeyPressed(KEY_SPACE) && isOnGround) {
         velocityY = -JUMP_STRENGTH;
         isOnGround = false;
+        PlaySound(s_playerJump);
     }
-    // Check collision for Y movement
+    
     Rectangle futureY = {position.x - radius, position.y + velocityY - radius, radius * 2, radius * 2};
     bool canMoveY = true;
     for (const Wall& wall : walls) {
@@ -72,7 +72,7 @@ void Player::Update(const std::vector<Wall>& walls) {
     if (canMoveY) position.y += velocityY;
     if (std::isnan(position.y) || std::isinf(position.y) || position.y > 10000.0f) {
         std::cout << "Invalid Y detected: " << position.y << "\n";
-        position = {50, 50};
+        position = {50, 250};
         velocityY = 0;
     }
     

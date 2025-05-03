@@ -12,7 +12,6 @@ public:
     Color solvedColor;
     Color normalColor;
     Door();
-    Door(float x,float y,bool v);
     void Draw();
     void openDoor();
     bool CheckCollision(const Vector2& player);

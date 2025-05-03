@@ -7,10 +7,10 @@
         "enabledCommands": ["help", "man", "echo", "clear","ls","cat","chmod","run"],
         "files": {
             "hint1.txt": ["Usage : echo some text output : some text","rw"],
-            "hint2.txt": ["A baby sais MAMA a developer sais print('he...)","r"]
+            "hint2.txt": ["A baby sais MAMA a developer sais print('hello...)","r"]
         }
     },
-    "text":"to see if you are a true programmer echo our first phrase\n press tab then type help to know how",
+    "text":"Hello programmer. Press [TAB] to open the terminal.\n Use ‘ls’ to list files and ‘cat’ to read hints. \n     Your first step begins with a classic phrase",
     "textAttributes":[100,100,20],
     "type": "Terminal Output",
     "output": "hello world"

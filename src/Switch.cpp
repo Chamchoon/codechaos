@@ -6,11 +6,13 @@ Switch::Switch(float x, float y) {
     isActive = false;
     activeColor = YELLOW;
     inactiveColor = GRAY;
+    s_switch = LoadSound("../sounds/switch.mp3");
 }
 
 
 void Switch::Toggle() {
     isActive = !isActive;
+    PlaySound(s_switch);
 }
 
 void Switch::Draw() {

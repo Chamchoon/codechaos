@@ -5,6 +5,8 @@
 NumberBlock::NumberBlock(float x, float y,int v){
     rect = { x, y, 50, 50};
     value = v;
+    s_up = LoadSound("../sounds/pop-up.mp3");
+    s_down = LoadSound("../sounds/pop-down.mp3");
 }
 
 void NumberBlock::Draw(){
@@ -23,7 +25,9 @@ void NumberBlock::Update() {
     Vector2 mousePos = GetMousePosition();
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePos, rect)) {
         value++;
+        PlaySound(s_up);
     }else if(IsMouseButtonPressed(MOUSE_RIGHT_BUTTON) && CheckCollisionPointRec(mousePos, rect)){
         value--;
+        PlaySound(s_down);
     }
 }
